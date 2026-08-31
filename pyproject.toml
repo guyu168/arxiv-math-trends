@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arxiv-math-trends"
+version = "1.0.0"
+description = "Reproducible analysis of year-over-year arXiv mathematics submission trends"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Guyu Jin"}]
+keywords = ["arxiv", "data-analysis", "mathematics", "statistics"]
+
+[project.scripts]
+arxiv-math-trends = "arxiv_math_trends.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

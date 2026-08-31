@@ -1,0 +1,33 @@
+category,category_name,count_2024,count_2025,count_2026,baseline_growth_pct,current_growth_pct,acceleration_pp
+math.GM,General Mathematics,221,218,343,-1.36,57.34,58.70
+math.IT,Information Theory,1656,1340,1785,-19.08,33.21,52.29
+math.CO,Combinatorics,2295,2401,3587,4.62,49.40,44.78
+math.ST,Statistics Theory,682,657,912,-3.67,38.81,42.48
+math.LO,Logic,462,433,583,-6.28,34.64,40.92
+math.DS,Dynamical Systems,1031,988,1332,-4.17,34.82,38.99
+math.MP,Mathematical Physics,740,708,946,-4.32,33.62,37.94
+math.GN,General Topology,144,125,155,-13.19,24.00,37.19
+math.OA,Operator Algebras,241,238,319,-1.24,34.03,35.28
+math.AT,Algebraic Topology,330,330,425,0.00,28.79,28.79
+math.RA,Rings and Algebras,477,441,533,-7.55,20.86,28.41
+math.FA,Functional Analysis,911,863,1059,-5.27,22.71,27.98
+math.HO,History and Overview,131,127,158,-3.05,24.41,27.46
+math.GR,Group Theory,609,590,729,-3.12,23.56,26.68
+math.AG,Algebraic Geometry,1290,1319,1681,2.25,27.45,25.20
+math.DG,Differential Geometry,1063,1100,1413,3.48,28.45,24.97
+math.NT,Number Theory,1464,1529,1954,4.44,27.80,23.36
+math.CA,Classical Analysis and ODEs,492,478,575,-2.85,20.29,23.14
+math.SG,Symplectic Geometry,175,158,179,-9.71,13.29,23.01
+math.NA,Numerical Analysis,2048,2077,2526,1.42,21.62,20.20
+math.AP,Analysis of PDEs,2664,2773,3437,4.09,23.95,19.85
+math.CV,Complex Variables,386,403,495,4.40,22.83,18.42
+math.GT,Geometric Topology,518,534,645,3.09,20.79,17.70
+math.CT,Category Theory,222,221,254,-0.45,14.93,15.38
+math.OC,Optimization and Control,2329,2458,2966,5.54,20.67,15.13
+math.MG,Metric Geometry,207,242,315,16.91,30.17,13.26
+math.RT,Representation Theory,629,636,714,1.11,12.26,11.15
+math.QA,Quantum Algebra,194,214,258,10.31,20.56,10.25
+math.PR,Probability,1431,1629,1963,13.84,20.50,6.67
+math.AC,Commutative Algebra,376,378,401,0.53,6.08,5.55
+math.SP,Spectral Theory,134,180,226,34.33,25.56,-8.77
+math.KT,K-Theory and Homology,73,75,56,2.74,-25.33,-28.07
