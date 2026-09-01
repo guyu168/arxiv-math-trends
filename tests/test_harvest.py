@@ -1,7 +1,14 @@
 import unittest
 from datetime import date
 
-from arxiv_math_trends.harvest import Paper, build_snapshot, month_ranges, parse_atom, query_url
+from arxiv_math_trends.harvest import (
+    Paper,
+    build_parser,
+    build_snapshot,
+    month_ranges,
+    parse_atom,
+    query_url,
+)
 
 
 SAMPLE = """<?xml version="1.0" encoding="UTF-8"?>
@@ -30,6 +37,9 @@ SAMPLE = """<?xml version="1.0" encoding="UTF-8"?>
 
 
 class HarvestTests(unittest.TestCase):
+    def test_default_snapshot_ends_on_august_31(self) -> None:
+        self.assertEqual(build_parser().parse_args([]).end, date(2026, 8, 31))
+
     def test_parse_atom_keeps_primary_math_papers(self) -> None:
         total, papers = parse_atom(SAMPLE)
         self.assertEqual(total, 3)

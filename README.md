@@ -3,7 +3,7 @@
 [![CI](https://github.com/guyu168/arxiv-math-trends/actions/workflows/ci.yml/badge.svg)](https://github.com/guyu168/arxiv-math-trends/actions/workflows/ci.yml)
 
 An auditable arXiv mathematics study with an interactive author explorer. Pick
-any start and end date inside the frozen 2024-01-01 to 2026-06-30 snapshot—the
+any start and end date inside the frozen 2024-01-01 to 2026-08-31 snapshot—the
 interval must be longer than 15 days—and the browser ranks the 50 most active
 author names by paper count.
 
@@ -21,7 +21,7 @@ author. arXiv author names are not stable person identifiers, so spelling
 variants are not merged and identical displayed names may represent different
 people.
 
-The snapshot contains **116,749 papers** and **108,358 distinct author-name
+The snapshot contains **128,603 papers** and **113,956 distinct author-name
 strings**. It includes papers whose primary category is one of the mathematics
 categories; the legacy primary labels `cs.IT` and `math-ph` are normalized to
 `math.IT` and `math.MP`.

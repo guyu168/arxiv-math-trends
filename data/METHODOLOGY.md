@@ -23,7 +23,7 @@ comparison. They avoid comparing periods of different lengths and make the
 ## Author explorer
 
 The browser loads a frozen daily snapshot covering 1 January 2024 through
-30 June 2026. For a selected interval, each paper contributes one count to
+31 August 2026. For a selected interval, each paper contributes one count to
 every author name listed in its arXiv metadata. Repeated identical names within
 one paper are collapsed before counting.
 

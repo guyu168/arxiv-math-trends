@@ -86,7 +86,7 @@ def parse_atom(text: str) -> tuple[int, list[Paper]]:
     return int(total_node.text), papers
 
 
-def _download(url: str, retries: int = 4) -> str:
+def _download(url: str, retries: int = 6) -> str:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     for attempt in range(retries):
         try:
@@ -95,12 +95,12 @@ def _download(url: str, retries: int = 4) -> str:
         except urllib.error.HTTPError as error:
             if error.code not in {429, 500, 502, 503, 504} or attempt == retries - 1:
                 raise
-            wait = int(error.headers.get("Retry-After", 3 * (attempt + 1)))
+            wait = int(error.headers.get("Retry-After", 10 * (attempt + 1)))
             time.sleep(wait)
         except urllib.error.URLError:
             if attempt == retries - 1:
                 raise
-            time.sleep(3 * (attempt + 1))
+            time.sleep(10 * (attempt + 1))
     raise RuntimeError("unreachable")
 
 
@@ -110,7 +110,7 @@ def fetch_range(
     cache_dir: str | Path,
     *,
     page_size: int = 2_000,
-    delay_seconds: float = 3.0,
+    delay_seconds: float = 5.0,
 ) -> list[Paper]:
     if end_date < start_date:
         raise ValueError("end date must not precede start date")
@@ -217,7 +217,7 @@ def write_half_year_counts(
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build a daily arXiv mathematics author snapshot")
     parser.add_argument("--start", type=date.fromisoformat, default=date(2024, 1, 1))
-    parser.add_argument("--end", type=date.fromisoformat, default=date(2026, 6, 30))
+    parser.add_argument("--end", type=date.fromisoformat, default=date(2026, 8, 31))
     parser.add_argument("--cache-dir", type=Path, default=Path(".cache/arxiv"))
     parser.add_argument(
         "--output",
