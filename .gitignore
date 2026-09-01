@@ -4,4 +4,6 @@ __pycache__/
 .pytest_cache/
 dist/
 build/
-
+.cache/
+__pycache__/
+*.py[cod]

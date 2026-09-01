@@ -9,7 +9,7 @@ from .svg import acceleration_chart
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, default=Path("data/submissions_jan_jul.csv"))
+    parser.add_argument("--input", type=Path, default=Path("data/submissions_h1.csv"))
     parser.add_argument("--output-dir", type=Path, default=Path("outputs"))
     return parser
 
@@ -33,4 +33,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

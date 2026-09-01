@@ -2,51 +2,51 @@
 <rect width="100%" height="100%" fill="#ffffff"/>
 <style>text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#172033}.label{font-size:14px}.value{font-size:13px;font-weight:600}.title{font-size:24px;font-weight:700}.sub{font-size:13px;fill:#526079}</style>
 <text class="title" x="30" y="38">Acceleration in arXiv mathematics submission growth</text>
-<text class="sub" x="30" y="62">2025-2026 growth minus the 2024-2025 baseline; percentage points</text>
+<text class="sub" x="30" y="62">H1 2025→2026 growth minus H1 2024→2025 growth; percentage points</text>
 <line x1="115.0" x2="115.0" y1="82" y2="605" stroke="#9aa5b5"/>
-<text class="label" x="25" y="108">math.GM</text>
+<text class="label" x="25" y="108">math.IT</text>
 <rect x="115.0" y="90" width="810.0" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="932.0" y="106">+58.7 pp</text>
-<text class="label" x="25" y="143">math.IT</text>
-<rect x="115.0" y="125" width="721.6" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="843.6" y="141">+52.3 pp</text>
+<text class="value" text-anchor="start" x="932.0" y="106">+59.0 pp</text>
+<text class="label" x="25" y="143">math.LO</text>
+<rect x="115.0" y="125" width="752.3" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="874.3" y="141">+54.8 pp</text>
 <text class="label" x="25" y="178">math.CO</text>
-<rect x="115.0" y="160" width="617.9" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="739.9" y="176">+44.8 pp</text>
-<text class="label" x="25" y="213">math.ST</text>
-<rect x="115.0" y="195" width="586.2" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="708.2" y="211">+42.5 pp</text>
-<text class="label" x="25" y="248">math.LO</text>
-<rect x="115.0" y="230" width="564.7" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="686.7" y="246">+40.9 pp</text>
+<rect x="115.0" y="160" width="580.5" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="702.5" y="176">+42.3 pp</text>
+<text class="label" x="25" y="213">math.GM</text>
+<rect x="115.0" y="195" width="547.6" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="669.6" y="211">+39.9 pp</text>
+<text class="label" x="25" y="248">math.OA</text>
+<rect x="115.0" y="230" width="538.7" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="660.7" y="246">+39.2 pp</text>
 <text class="label" x="25" y="283">math.DS</text>
-<rect x="115.0" y="265" width="538.0" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="660.0" y="281">+39.0 pp</text>
+<rect x="115.0" y="265" width="512.4" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="634.4" y="281">+37.3 pp</text>
 <text class="label" x="25" y="318">math.MP</text>
-<rect x="115.0" y="300" width="523.6" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="645.6" y="316">+37.9 pp</text>
-<text class="label" x="25" y="353">math.GN</text>
-<rect x="115.0" y="335" width="513.3" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="635.3" y="351">+37.2 pp</text>
-<text class="label" x="25" y="388">math.OA</text>
-<rect x="115.0" y="370" width="486.8" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="608.8" y="386">+35.3 pp</text>
-<text class="label" x="25" y="423">math.AT</text>
-<rect x="115.0" y="405" width="397.3" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="519.3" y="421">+28.8 pp</text>
-<text class="label" x="25" y="458">math.RA</text>
-<rect x="115.0" y="440" width="392.0" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="514.0" y="456">+28.4 pp</text>
-<text class="label" x="25" y="493">math.FA</text>
-<rect x="115.0" y="475" width="386.1" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="508.1" y="491">+28.0 pp</text>
-<text class="label" x="25" y="528">math.HO</text>
-<rect x="115.0" y="510" width="379.0" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="501.0" y="526">+27.5 pp</text>
-<text class="label" x="25" y="563">math.GR</text>
-<rect x="115.0" y="545" width="368.2" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="490.2" y="561">+26.7 pp</text>
-<text class="label" x="25" y="598">math.AG</text>
-<rect x="115.0" y="580" width="347.7" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
-<text class="value" text-anchor="start" x="469.7" y="596">+25.2 pp</text>
+<rect x="115.0" y="300" width="504.2" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="626.2" y="316">+36.7 pp</text>
+<text class="label" x="25" y="353">math.ST</text>
+<rect x="115.0" y="335" width="480.7" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="602.7" y="351">+35.0 pp</text>
+<text class="label" x="25" y="388">math.RA</text>
+<rect x="115.0" y="370" width="433.0" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="555.0" y="386">+31.5 pp</text>
+<text class="label" x="25" y="423">math.DG</text>
+<rect x="115.0" y="405" width="404.3" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="526.3" y="421">+29.4 pp</text>
+<text class="label" x="25" y="458">math.HO</text>
+<rect x="115.0" y="440" width="402.6" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="524.6" y="456">+29.3 pp</text>
+<text class="label" x="25" y="493">math.AG</text>
+<rect x="115.0" y="475" width="374.8" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="496.8" y="491">+27.3 pp</text>
+<text class="label" x="25" y="528">math.GN</text>
+<rect x="115.0" y="510" width="373.4" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="495.4" y="526">+27.2 pp</text>
+<text class="label" x="25" y="563">math.FA</text>
+<rect x="115.0" y="545" width="363.6" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="485.6" y="561">+26.5 pp</text>
+<text class="label" x="25" y="598">math.AT</text>
+<rect x="115.0" y="580" width="359.1" height="22" rx="4" fill="#2563eb" opacity="0.88"/>
+<text class="value" text-anchor="start" x="481.1" y="596">+26.2 pp</text>
 </svg>

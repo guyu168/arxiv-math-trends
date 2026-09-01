@@ -1,33 +1,33 @@
-category,category_name,count_2024,count_2025,count_2026,baseline_growth_pct,current_growth_pct,acceleration_pp
-math.GM,General Mathematics,221,218,343,-1.36,57.34,58.70
-math.IT,Information Theory,1656,1340,1785,-19.08,33.21,52.29
-math.CO,Combinatorics,2295,2401,3587,4.62,49.40,44.78
-math.ST,Statistics Theory,682,657,912,-3.67,38.81,42.48
-math.LO,Logic,462,433,583,-6.28,34.64,40.92
-math.DS,Dynamical Systems,1031,988,1332,-4.17,34.82,38.99
-math.MP,Mathematical Physics,740,708,946,-4.32,33.62,37.94
-math.GN,General Topology,144,125,155,-13.19,24.00,37.19
-math.OA,Operator Algebras,241,238,319,-1.24,34.03,35.28
-math.AT,Algebraic Topology,330,330,425,0.00,28.79,28.79
-math.RA,Rings and Algebras,477,441,533,-7.55,20.86,28.41
-math.FA,Functional Analysis,911,863,1059,-5.27,22.71,27.98
-math.HO,History and Overview,131,127,158,-3.05,24.41,27.46
-math.GR,Group Theory,609,590,729,-3.12,23.56,26.68
-math.AG,Algebraic Geometry,1290,1319,1681,2.25,27.45,25.20
-math.DG,Differential Geometry,1063,1100,1413,3.48,28.45,24.97
-math.NT,Number Theory,1464,1529,1954,4.44,27.80,23.36
-math.CA,Classical Analysis and ODEs,492,478,575,-2.85,20.29,23.14
-math.SG,Symplectic Geometry,175,158,179,-9.71,13.29,23.01
-math.NA,Numerical Analysis,2048,2077,2526,1.42,21.62,20.20
-math.AP,Analysis of PDEs,2664,2773,3437,4.09,23.95,19.85
-math.CV,Complex Variables,386,403,495,4.40,22.83,18.42
-math.GT,Geometric Topology,518,534,645,3.09,20.79,17.70
-math.CT,Category Theory,222,221,254,-0.45,14.93,15.38
-math.OC,Optimization and Control,2329,2458,2966,5.54,20.67,15.13
-math.MG,Metric Geometry,207,242,315,16.91,30.17,13.26
-math.RT,Representation Theory,629,636,714,1.11,12.26,11.15
-math.QA,Quantum Algebra,194,214,258,10.31,20.56,10.25
-math.PR,Probability,1431,1629,1963,13.84,20.50,6.67
-math.AC,Commutative Algebra,376,378,401,0.53,6.08,5.55
-math.SP,Spectral Theory,134,180,226,34.33,25.56,-8.77
-math.KT,K-Theory and Homology,73,75,56,2.74,-25.33,-28.07
+category,category_name,count_2024,count_2025,count_2026,baseline_growth_pct,current_growth_pct,growth_2026_vs_2024_pct,acceleration_pp
+math.IT,Information Theory,1465,1128,1534,-23.00,35.99,4.71,59.00
+math.LO,Logic,404,350,495,-13.37,41.43,22.52,54.79
+math.CO,Combinatorics,1962,1986,2850,1.22,43.50,45.26,42.28
+math.GM,General Mathematics,168,189,288,12.50,52.38,71.43,39.88
+math.OA,Operator Algebras,206,198,268,-3.88,35.35,30.10,39.24
+math.DS,Dynamical Systems,871,831,1103,-4.59,32.73,26.64,37.32
+math.MP,Mathematical Physics,619,597,795,-3.55,33.17,28.43,36.72
+math.ST,Statistics Theory,577,568,758,-1.56,33.45,31.37,35.01
+math.RA,Rings and Algebras,405,372,459,-8.15,23.39,13.33,31.54
+math.DG,Differential Geometry,901,913,1194,1.33,30.78,32.52,29.45
+math.HO,History and Overview,111,109,139,-1.80,27.52,25.23,29.32
+math.AG,Algebraic Geometry,1098,1106,1416,0.73,28.03,28.96,27.30
+math.GN,General Topology,113,104,124,-7.96,19.23,9.73,27.20
+math.FA,Functional Analysis,766,730,889,-4.70,21.78,16.06,26.48
+math.AT,Algebraic Topology,276,279,355,1.09,27.24,28.62,26.15
+math.SG,Symplectic Geometry,156,130,140,-16.67,7.69,-10.26,24.36
+math.NT,Number Theory,1249,1287,1602,3.04,24.48,28.26,21.43
+math.AP,Analysis of PDEs,2236,2308,2858,3.22,23.83,27.82,20.61
+math.GR,Group Theory,501,498,591,-0.60,18.67,17.96,19.27
+math.NA,Numerical Analysis,1719,1775,2081,3.26,17.24,21.06,13.98
+math.CA,Classical Analysis and ODEs,407,405,458,-0.49,13.09,12.53,13.58
+math.GT,Geometric Topology,452,455,519,0.66,14.07,14.82,13.40
+math.OC,Optimization and Control,1998,2120,2525,6.11,19.10,26.38,13.00
+math.CV,Complex Variables,324,342,404,5.56,18.13,24.69,12.57
+math.RT,Representation Theory,533,524,581,-1.69,10.88,9.01,12.57
+math.PR,Probability,1206,1376,1645,14.10,19.55,36.40,5.45
+math.CT,Category Theory,195,195,204,0.00,4.62,4.62,4.62
+math.AC,Commutative Algebra,320,319,331,-0.31,3.76,3.44,4.07
+math.QA,Quantum Algebra,162,183,214,12.96,16.94,32.10,3.98
+math.MG,Metric Geometry,167,213,252,27.54,18.31,50.90,-9.24
+math.KT,K-Theory and Homology,60,63,49,5.00,-22.22,-18.33,-27.22
+math.SP,Spectral Theory,107,165,191,54.21,15.76,78.50,-38.45

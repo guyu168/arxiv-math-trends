@@ -18,6 +18,7 @@ class CategoryTrend:
     count_2026: int
     baseline_growth: float
     current_growth: float
+    growth_2026_vs_2024: float
     acceleration: float
 
 
@@ -60,6 +61,7 @@ def analyze(rows: Iterable[dict[str, str]]) -> list[CategoryTrend]:
                 count_2026=counts[2],
                 baseline_growth=baseline,
                 current_growth=current,
+                growth_2026_vs_2024=_growth(counts[0], counts[2]),
                 acceleration=current - baseline,
             )
         )
@@ -86,6 +88,7 @@ def write_metrics(trends: Iterable[CategoryTrend], path: str | Path) -> None:
         "count_2026",
         "baseline_growth_pct",
         "current_growth_pct",
+        "growth_2026_vs_2024_pct",
         "acceleration_pp",
     ]
     with output.open("w", newline="", encoding="utf-8") as handle:
@@ -101,7 +104,7 @@ def write_metrics(trends: Iterable[CategoryTrend], path: str | Path) -> None:
                     "count_2026": item.count_2026,
                     "baseline_growth_pct": f"{100 * item.baseline_growth:.2f}",
                     "current_growth_pct": f"{100 * item.current_growth:.2f}",
+                    "growth_2026_vs_2024_pct": f"{100 * item.growth_2026_vs_2024:.2f}",
                     "acceleration_pp": f"{100 * item.acceleration:.2f}",
                 }
             )
-

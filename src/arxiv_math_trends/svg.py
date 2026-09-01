@@ -26,7 +26,7 @@ def acceleration_chart(
         '<rect width="100%" height="100%" fill="#ffffff"/>',
         '<style>text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#172033}.label{font-size:14px}.value{font-size:13px;font-weight:600}.title{font-size:24px;font-weight:700}.sub{font-size:13px;fill:#526079}</style>',
         '<text class="title" x="30" y="38">Acceleration in arXiv mathematics submission growth</text>',
-        '<text class="sub" x="30" y="62">2025-2026 growth minus the 2024-2025 baseline; percentage points</text>',
+        '<text class="sub" x="30" y="62">H1 2025→2026 growth minus H1 2024→2025 growth; percentage points</text>',
         f'<line x1="{zero:.1f}" x2="{zero:.1f}" y1="82" y2="{height - 25}" stroke="#9aa5b5"/>',
     ]
     for index, (item, value) in enumerate(zip(data, values)):
@@ -47,4 +47,3 @@ def acceleration_chart(
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text("\n".join(parts), encoding="utf-8")
-

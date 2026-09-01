@@ -1,20 +1,45 @@
 # Data methodology
 
-- Window: 1 January through 31 July in each year.
-- Unit: arXiv primary-category submissions. A paper is counted once.
-- Categories: the 32 `math.*` primary categories in the arXiv taxonomy.
-- Sources: annual mathematics listings for [2024](https://arxiv.org/year/math/2024), [2025](https://arxiv.org/year/math/2025), and [2026](https://arxiv.org/year/math/2026).
-- Frozen snapshot: 7 August 2026.
+## Category comparison
 
-The repository deliberately commits a small, auditable snapshot rather than
-silently querying a changing page on every run. The analysis validates the
-schema and totals before calculating any rates.
+- Window: 1 January through 30 June in 2024, 2025, and 2026.
+- Unit: papers whose arXiv **primary category** is one of the 32 `math.*`
+  categories. A paper is counted once.
+- Source: the official [arXiv API](https://info.arxiv.org/help/api/), queried
+  by submission date in calendar-month slices.
+- Frozen snapshot: 2 September 2026.
 
-For category \(c\), the reported acceleration is
+For category \(c\), the tables report:
 
-`growth(2025 -> 2026) - growth(2024 -> 2025)`.
+- 2025 growth: `count(2025 H1) / count(2024 H1) - 1`;
+- 2026 growth: `count(2026 H1) / count(2025 H1) - 1`;
+- 2026 cumulative change from 2024: `count(2026 H1) / count(2024 H1) - 1`;
+- growth acceleration: `2026 growth - 2025 growth`, in percentage points.
 
-This is a descriptive baseline, not a causal estimate of AI's effect on
-mathematical research. Classification changes, arXiv adoption, collaboration
-patterns, and submission timing are possible confounders.
+The equal six-month windows replace the repository's earlier January–July
+comparison. They avoid comparing periods of different lengths and make the
+"first half" label exact.
 
+## Author explorer
+
+The browser loads a frozen daily snapshot covering 1 January 2024 through
+30 June 2026. For a selected interval, each paper contributes one count to
+every author name listed in its arXiv metadata. Repeated identical names within
+one paper are collapsed before counting.
+
+arXiv does not provide a stable person identifier for every author in this
+feed. Names are therefore normalized only for Unicode form and whitespace;
+initials, transliterations, name changes, and spelling variants are not merged.
+Conversely, two different people with the same displayed name may be combined.
+The author table measures displayed-name activity, not uniquely identified
+individual productivity.
+
+The explorer enforces a range longer than 15 days and only accepts dates inside
+the frozen snapshot. Rebuild it with `arxiv-math-harvest` to extend the window.
+
+## Interpretation limits
+
+The analysis is descriptive. Classification changes, arXiv adoption,
+collaboration size, moderation delays, seasonal submission timing, and author
+name ambiguity are possible confounders. Growth acceleration is a two-interval
+comparison, not evidence that any particular technology caused the change.

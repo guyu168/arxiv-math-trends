@@ -14,7 +14,7 @@ keywords = ["arxiv", "data-analysis", "mathematics", "statistics"]
 
 [project.scripts]
 arxiv-math-trends = "arxiv_math_trends.cli:main"
+arxiv-math-harvest = "arxiv_math_trends.harvest:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-

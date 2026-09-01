@@ -1,0 +1,33 @@
+category,category_name,2024,2025,2026
+math.AC,Commutative Algebra,320,319,331
+math.AG,Algebraic Geometry,1098,1106,1416
+math.AP,Analysis of PDEs,2236,2308,2858
+math.AT,Algebraic Topology,276,279,355
+math.CA,Classical Analysis and ODEs,407,405,458
+math.CO,Combinatorics,1962,1986,2850
+math.CT,Category Theory,195,195,204
+math.CV,Complex Variables,324,342,404
+math.DG,Differential Geometry,901,913,1194
+math.DS,Dynamical Systems,871,831,1103
+math.FA,Functional Analysis,766,730,889
+math.GM,General Mathematics,168,189,288
+math.GN,General Topology,113,104,124
+math.GR,Group Theory,501,498,591
+math.GT,Geometric Topology,452,455,519
+math.HO,History and Overview,111,109,139
+math.IT,Information Theory,1465,1128,1534
+math.KT,K-Theory and Homology,60,63,49
+math.LO,Logic,404,350,495
+math.MG,Metric Geometry,167,213,252
+math.MP,Mathematical Physics,619,597,795
+math.NA,Numerical Analysis,1719,1775,2081
+math.NT,Number Theory,1249,1287,1602
+math.OA,Operator Algebras,206,198,268
+math.OC,Optimization and Control,1998,2120,2525
+math.PR,Probability,1206,1376,1645
+math.QA,Quantum Algebra,162,183,214
+math.RA,Rings and Algebras,405,372,459
+math.RT,Representation Theory,533,524,581
+math.SG,Symplectic Geometry,156,130,140
+math.SP,Spectral Theory,107,165,191
+math.ST,Statistics Theory,577,568,758
