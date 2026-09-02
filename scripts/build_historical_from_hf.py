@@ -37,7 +37,7 @@ def main() -> None:
         "anuj0456/arxiv-dataset",
         split="train",
         streaming=True,
-    ).select_columns(["authors_parsed", "categories", "versions"])
+    ).select_columns(["id", "authors_parsed", "categories", "versions"])
 
     for record in stream:
         versions = record.get("versions") or []
@@ -60,7 +60,7 @@ def main() -> None:
         )
         if authors:
             papers_by_year[published.year].append(
-                Paper(published, primary, authors)
+                Paper(str(record.get("id") or ""), published, primary, authors)
             )
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -70,7 +70,7 @@ def main() -> None:
         write_snapshot(snapshot, OUTPUT_DIR / f"{year}.json")
         print(f"{year}: {len(papers):,} papers, {len(snapshot['authors']):,} identities")
 
-    all_identities: set[tuple[str, str]] = set()
+    all_identities: set[tuple[str, str, str]] = set()
     total_papers = 0
     years = list(range(START.year, SNAPSHOT_END.year + 1))
     for year in years:
@@ -78,7 +78,11 @@ def main() -> None:
             snapshot = json.load(handle)
         total_papers += snapshot["paper_count"]
         all_identities.update(
-            (author["name"], author["affiliation"])
+            (
+                author["name"],
+                author.get("orcid", ""),
+                author.get("openalex_id", ""),
+            )
             for author in snapshot["authors"]
         )
 
@@ -95,3 +99,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

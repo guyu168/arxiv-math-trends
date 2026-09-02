@@ -27,23 +27,22 @@ The browser loads year-partitioned frozen daily snapshots covering 1 January 201
 every author identity listed in its arXiv metadata. Repeated identical identities
 within one paper are collapsed before counting.
 
-arXiv does not provide a stable person identifier for every author in this
-feed, and its API does not expose author email addresses. The explorer therefore
-uses the exact display name plus the author-submitted affiliation. Names and
-affiliations are normalized only for Unicode form and whitespace. This separates
-many common-name collisions, but missing affiliations can still combine people;
-affiliation changes and spelling variants can split one person. The table is a
-metadata-based activity ranking, not verified individual productivity.
+arXiv's Atom feed does not expose ORCID for each paper authorship. The pipeline
+therefore resolves every arXiv DOI against OpenAlex authorships. When OpenAlex
+links a public ORCID, that ORCID is the preferred identity. Otherwise the stable
+OpenAlex author ID is used; only unmatched contributions fall back to a
+normalized arXiv display name. Matching first requires equivalent normalized
+names and then permits initial/full-name variants while preserving authorship
+order. Ambiguous matches are not forced.
 
 The three field labels after each name are the identity's most frequent primary
 mathematics categories inside the selected date range, ordered by paper count
 and then category code. `PDE` is the display label for `math.AP`.
 
-The 2010–2023 backfill is derived from the public arXiv OAI metadata snapshot
-mirrored on Hugging Face. That mirror exposes author names and categories but
-not affiliations, so historical identities in those years use the normalized
-display name alone and are explicitly labeled as having no provided affiliation.
-The 2024–2026 snapshots use affiliations supplied by the official arXiv API.
+The 2010–2023 paper backfill is derived from the public arXiv OAI metadata
+snapshot mirrored on Hugging Face. The 2024–2026 paper snapshots use the
+official arXiv API. All years pass through the same OpenAlex/ORCID enrichment
+step before publication.
 
 The explorer enforces a range longer than 15 days and only accepts dates inside
 the frozen snapshot. Rebuild it with `arxiv-math-harvest` to extend the window.
@@ -54,3 +53,4 @@ The analysis is descriptive. Classification changes, arXiv adoption,
 collaboration size, moderation delays, seasonal submission timing, and author
 name ambiguity are possible confounders. Growth acceleration is a two-interval
 comparison, not evidence that any particular technology caused the change.
+

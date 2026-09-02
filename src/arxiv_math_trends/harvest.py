@@ -5,6 +5,7 @@ import csv
 import json
 import time
 import unicodedata
+import re
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -26,11 +27,13 @@ PRIMARY_ALIASES = {"cs.IT": "math.IT", "math-ph": "math.MP"}
 @dataclass(frozen=True)
 class AuthorIdentity:
     name: str
-    affiliation: str = ""
+    orcid: str = ""
+    openalex_id: str = ""
 
 
 @dataclass(frozen=True)
 class Paper:
+    arxiv_id: str
     published: date
     primary_category: str
     authors: tuple[AuthorIdentity, ...]
@@ -40,8 +43,9 @@ def normalize_author(name: str) -> str:
     return " ".join(unicodedata.normalize("NFC", name).split())
 
 
-def normalize_affiliation(affiliation: str) -> str:
-    return " ".join(unicodedata.normalize("NFC", affiliation).split())
+def normalize_arxiv_id(value: str) -> str:
+    identifier = value.rstrip("/").rsplit("/", 1)[-1]
+    return re.sub(r"v\d+$", "", identifier)
 
 
 def query_url(start_date: date, end_date: date, offset: int, page_size: int) -> str:
@@ -68,6 +72,7 @@ def parse_atom(text: str) -> tuple[int, list[Paper]]:
         raise ValueError("arXiv response is missing totalResults")
     papers: list[Paper] = []
     for entry in root.findall(f"{ATOM}entry"):
+        id_node = entry.find(f"{ATOM}id")
         published_node = entry.find(f"{ATOM}published")
         primary_node = entry.find(f"{ARXIV}primary_category")
         if published_node is None or published_node.text is None or primary_node is None:
@@ -82,18 +87,17 @@ def parse_atom(text: str) -> tuple[int, list[Paper]]:
             if name_node is None or not name_node.text:
                 continue
             name = normalize_author(name_node.text)
-            affiliation_node = author.find(f"{ARXIV}affiliation")
-            affiliation = (
-                normalize_affiliation(affiliation_node.text)
-                if affiliation_node is not None and affiliation_node.text
-                else ""
-            )
             if name:
-                authors.append(AuthorIdentity(name=name, affiliation=affiliation))
+                authors.append(AuthorIdentity(name=name))
         if not authors:
             continue
         papers.append(
             Paper(
+                arxiv_id=(
+                    normalize_arxiv_id(id_node.text)
+                    if id_node is not None and id_node.text
+                    else ""
+                ),
                 published=date.fromisoformat(published_node.text[:10]),
                 primary_category=primary,
                 authors=tuple(authors),
@@ -178,16 +182,29 @@ def build_snapshot(papers: list[Paper], start_date: date, end_date: date) -> dic
     filtered = [paper for paper in papers if start_date <= paper.published <= end_date]
     identities = sorted(
         {author for paper in filtered for author in paper.authors},
-        key=lambda author: (author.name.casefold(), author.affiliation.casefold()),
+        key=lambda author: (
+            author.name.casefold(),
+            author.orcid,
+            author.openalex_id,
+        ),
     )
     author_ids = {author: index for index, author in enumerate(identities)}
     categories = sorted({paper.primary_category for paper in filtered})
     category_ids = {category: index for index, category in enumerate(categories)}
     daily: dict[str, Counter[tuple[int, int]]] = defaultdict(Counter)
     paper_days: Counter[str] = Counter()
+    paper_rows: dict[str, list[list[object]]] = defaultdict(list)
     for paper in filtered:
         paper_days[paper.published.isoformat()] += 1
-        for author in set(paper.authors):
+        unique_authors = tuple(dict.fromkeys(paper.authors))
+        paper_rows[paper.published.isoformat()].append(
+            [
+                paper.arxiv_id,
+                category_ids[paper.primary_category],
+                [author_ids[author] for author in unique_authors],
+            ]
+        )
+        for author in unique_authors:
             daily[paper.published.isoformat()][
                 (author_ids[author], category_ids[paper.primary_category])
             ] += 1
@@ -197,11 +214,16 @@ def build_snapshot(papers: list[Paper], start_date: date, end_date: date) -> dic
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "paper_count": len(filtered),
         "authors": [
-            {"name": author.name, "affiliation": author.affiliation}
+            {
+                "name": author.name,
+                "orcid": author.orcid,
+                "openalex_id": author.openalex_id,
+            }
             for author in identities
         ],
         "categories": categories,
         "paper_days": dict(sorted(paper_days.items())),
+        "papers": dict(sorted(paper_rows.items())),
         "days": {
             day: [
                 [author_id, category_id, count]
@@ -238,7 +260,7 @@ def write_metadata(
         "paper_count": paper_count,
         "author_identity_count": identity_count,
         "years": years,
-        "identity_basis": "exact arXiv name + submitted affiliation",
+        "identity_basis": "ORCID, then OpenAlex author ID, then normalized arXiv name",
     }
     target.write_text(
         json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
@@ -329,9 +351,10 @@ def main() -> None:
     write_half_year_counts(trend_papers, args.category_source, args.counts_output)
     print(
         f"snapshot: {total_papers:,} papers, "
-        f"{len(all_identities):,} name-affiliation identities"
+        f"{len(all_identities):,} author identities"
     )
 
 
 if __name__ == "__main__":
     main()
+

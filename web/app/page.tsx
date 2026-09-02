@@ -3,9 +3,9 @@
 import { type ComponentProps, useEffect, useMemo, useState } from 'react';
 import {
   BarChart3,
-  Building2,
   CalendarRange,
   Database,
+  Fingerprint,
   Sigma,
   Users,
 } from 'lucide-react';
@@ -30,7 +30,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-type AuthorIdentity = { name: string; affiliation: string };
+type AuthorIdentity = { name: string; orcid: string; openalex_id: string };
 type Metadata = {
   min_date: string;
   max_date: string;
@@ -75,7 +75,9 @@ function daySpan(start: string, end: string) {
 }
 
 function identityKey(author: AuthorIdentity) {
-  return `${author.name}\\u0000${author.affiliation}`;
+  if (author.orcid) return `orcid:${author.orcid}`;
+  if (author.openalex_id) return `openalex:${author.openalex_id}`;
+  return `name:${author.name.toLocaleLowerCase()}`;
 }
 
 function formatCategory(category: string) {
@@ -145,7 +147,8 @@ function calculate(
       (left, right) =>
         right.count - left.count ||
         left.name.localeCompare(right.name) ||
-        left.affiliation.localeCompare(right.affiliation),
+        left.orcid.localeCompare(right.orcid) ||
+        left.openalex_id.localeCompare(right.openalex_id),
     );
   return {
     ranking: ranking.slice(0, 50),
@@ -248,7 +251,7 @@ export default function Home() {
             </div>
           </div>
           <Badge variant="outline" className="hidden sm:inline-flex">
-            Name + affiliation identities
+            ORCID-linked identities
           </Badge>
         </div>
       </header>
@@ -263,10 +266,9 @@ export default function Home() {
               Who is publishing most in mathematics?
             </h1>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              Choose a period longer than 15 days. Authors with the same name
-              are separated when arXiv supplies different affiliations. Each row
-              also shows that author&apos;s top three fields in the selected
-              period.
+              Choose a period longer than 15 days. ORCID separates authors who
+              share a name; OpenAlex author IDs cover records without a public
+              ORCID. Each row also shows that author&apos;s top three fields.
             </p>
           </div>
 
@@ -335,11 +337,11 @@ export default function Home() {
                 </Button>
               </form>
               <div className="mt-4 flex gap-2 text-xs leading-5 text-muted-foreground">
-                <Building2 className="mt-0.5 size-4 shrink-0 text-primary" />
+                <Fingerprint className="mt-0.5 size-4 shrink-0 text-primary" />
                 <p>
-                  arXiv&apos;s API does not expose author email addresses.
-                  Affiliation is used instead; missing or changed affiliations
-                  can still split or merge people.
+                  ORCID is used when publicly linked. OpenAlex author IDs are the
+                  fallback; records with neither identifier remain name-only and
+                  may still contain different people.
                 </p>
               </div>
             </CardContent>
@@ -362,7 +364,7 @@ export default function Home() {
                   {metadata.author_identity_count.toLocaleString()}
                 </span>
                 <span className="text-muted-foreground">
-                  name + affiliation records
+                  resolved author identities
                 </span>
               </div>
             </div>
@@ -390,7 +392,7 @@ export default function Home() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-16">Rank</TableHead>
-                    <TableHead>Author · top fields · affiliation</TableHead>
+                    <TableHead>Author · top fields · identity</TableHead>
                     <TableHead className="hidden w-40 sm:table-cell">
                       Relative activity
                     </TableHead>
@@ -413,14 +415,29 @@ export default function Home() {
                             · {author.categories.join(' / ')}
                           </span>
                         </span>
-                        <span
-                          className="block truncate text-xs text-muted-foreground"
-                          title={
-                            author.affiliation || 'Affiliation not provided'
-                          }
-                        >
-                          {author.affiliation || 'Affiliation not provided'}
-                        </span>
+                        {author.orcid ? (
+                          <a
+                            className="inline-flex items-center gap-1 text-xs text-muted-foreground underline decoration-border underline-offset-2 hover:text-primary"
+                            href={`https://orcid.org/${author.orcid}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            ORCID {author.orcid}
+                          </a>
+                        ) : author.openalex_id ? (
+                          <a
+                            className="inline-flex items-center gap-1 text-xs text-muted-foreground underline decoration-border underline-offset-2 hover:text-primary"
+                            href={`https://openalex.org/${author.openalex_id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            OpenAlex-resolved
+                          </a>
+                        ) : (
+                          <span className="block text-xs text-muted-foreground">
+                            Name-only fallback
+                          </span>
+                        )}
                       </TableCell>
                       <TableCell className="hidden sm:table-cell">
                         <span className="block h-1.5 overflow-hidden rounded-full bg-muted">
@@ -445,9 +462,10 @@ export default function Home() {
       </div>
 
       <footer className="border-t px-5 py-5 text-center text-xs text-muted-foreground">
-        Frozen from the official arXiv API · primary mathematics categories ·
-        snapshot generated {generated || '—'}
+        arXiv paper metadata · ORCID/OpenAlex author matching · primary
+        mathematics categories · snapshot generated {generated || '—'}
       </footer>
     </main>
   );
 }
+

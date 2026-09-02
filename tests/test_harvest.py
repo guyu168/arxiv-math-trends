@@ -18,17 +18,20 @@ SAMPLE = """<?xml version="1.0" encoding="UTF-8"?>
       xmlns:arxiv="http://arxiv.org/schemas/atom">
   <opensearch:totalResults>3</opensearch:totalResults>
   <entry>
+    <id>http://arxiv.org/abs/2602.00001v2</id>
     <published>2026-02-03T10:00:00Z</published>
     <arxiv:primary_category term="math.AG"/>
     <author><name>Ada  Lovelace</name><arxiv:affiliation>Analytical Engine Lab</arxiv:affiliation></author>
     <author><name>Emmy Noether</name></author>
   </entry>
   <entry>
+    <id>http://arxiv.org/abs/2602.00002v1</id>
     <published>2026-02-04T09:00:00Z</published>
     <arxiv:primary_category term="cs.IT"/>
     <author><name>Claude Shannon</name></author>
   </entry>
   <entry>
+    <id>http://arxiv.org/abs/2602.00003v1</id>
     <published>2026-02-04T10:00:00Z</published>
     <arxiv:primary_category term="cs.LG"/>
     <author><name>Ignored Crosslist</name></author>
@@ -50,10 +53,11 @@ class HarvestTests(unittest.TestCase):
         self.assertEqual(
             papers[0].authors,
             (
-                AuthorIdentity("Ada Lovelace", "Analytical Engine Lab"),
+                AuthorIdentity("Ada Lovelace"),
                 AuthorIdentity("Emmy Noether"),
             ),
         )
+        self.assertEqual(papers[0].arxiv_id, "2602.00001")
         self.assertEqual(papers[1].primary_category, "math.IT")
 
     def test_query_contains_date_bounds(self) -> None:
@@ -77,26 +81,31 @@ class HarvestTests(unittest.TestCase):
     def test_snapshot_counts_authors_once_per_paper(self) -> None:
         papers = [
             Paper(
+                "2601.00001",
                 date(2026, 1, 1),
                 "math.AG",
-                (AuthorIdentity("Ada", "Institute A"), AuthorIdentity("Ada", "Institute A"), AuthorIdentity("Emmy")),
+                (AuthorIdentity("Ada"), AuthorIdentity("Ada"), AuthorIdentity("Emmy")),
             ),
-            Paper(date(2026, 1, 2), "math.AG", (AuthorIdentity("Ada", "Institute B"),)),
+            Paper("2601.00002", date(2026, 1, 2), "math.AG", (AuthorIdentity("Ada"),)),
         ]
         snapshot = build_snapshot(papers, date(2026, 1, 1), date(2026, 1, 2))
         self.assertEqual(snapshot["paper_count"], 2)
         self.assertEqual(
             snapshot["authors"],
             [
-                {"name": "Ada", "affiliation": "Institute A"},
-                {"name": "Ada", "affiliation": "Institute B"},
-                {"name": "Emmy", "affiliation": ""},
+                {"name": "Ada", "orcid": "", "openalex_id": ""},
+                {"name": "Emmy", "orcid": "", "openalex_id": ""},
             ],
         )
         self.assertEqual(snapshot["categories"], ["math.AG"])
         self.assertEqual(snapshot["paper_days"], {"2026-01-01": 1, "2026-01-02": 1})
-        self.assertEqual(snapshot["days"]["2026-01-01"], [[0, 0, 1], [2, 0, 1]])
+        self.assertEqual(snapshot["days"]["2026-01-01"], [[0, 0, 1], [1, 0, 1]])
+        self.assertEqual(
+            snapshot["papers"]["2026-01-01"],
+            [["2601.00001", 0, [0, 1]]],
+        )
 
 
 if __name__ == "__main__":
     unittest.main()
+

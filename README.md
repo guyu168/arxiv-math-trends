@@ -18,19 +18,20 @@ The frontend lives in [`web/`](web). Its calculation runs in the browser from
 year-partitioned daily snapshots, so the browser downloads only the years needed
 for a selected window. Every paper adds one count to each listed author.
 
-The explorer uses the exact arXiv display name plus the author-submitted
-affiliation as its identity key. This separates many common-name collisions,
-but it is not a stable person identifier: affiliations are optional, may change,
-and arXiv's API does not expose author email addresses. Each ranked row also
-shows the three primary mathematics categories in which that identity published
-the most papers during the selected period (`PDE` denotes `math.AP`). It includes papers whose
-primary category is one of the mathematics categories; the legacy primary
-labels `cs.IT` and `math-ph` are normalized to `math.IT` and `math.MP`.
+The explorer resolves each paper's authorship through OpenAlex using the paper's
+permanent arXiv DOI. A public ORCID is the preferred identity; OpenAlex's
+disambiguated author ID is the fallback, followed by a normalized arXiv name
+only when neither external identifier is available. The table links public
+ORCID records and labels unresolved name-only rows rather than guessing. Each
+ranked row also shows the three primary mathematics categories in which that
+identity published the most papers during the selected period (`PDE` denotes
+`math.AP`). Legacy primary labels `cs.IT` and `math-ph` are normalized to
+`math.IT` and `math.MP`.
 
-The 2010–2023 backfill uses the public arXiv OAI metadata snapshot mirrored on
-Hugging Face, which does not include affiliations; those historical rows are
-therefore marked “Affiliation not provided.” The 2024–2026 API snapshots retain
-the author-submitted affiliation when available.
+The 2010–2023 paper backfill comes from the public arXiv metadata snapshot
+mirrored on Hugging Face. Author identity enrichment for every year is derived
+from the CC0 OpenAlex authorship graph; ORCID coverage depends on authors making
+an ORCID public and on the external match being available.
 
 ## Aggregate H1 comparison
 
@@ -115,3 +116,4 @@ formulas, source, author-name limitations, and confounders.
 ## Author
 
 Guyu Jin — Graduate School of Mathematical Sciences, The University of Tokyo.
+
