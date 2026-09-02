@@ -2,6 +2,7 @@ import unittest
 from datetime import date
 
 from arxiv_math_trends.harvest import (
+    AuthorIdentity,
     Paper,
     build_parser,
     build_snapshot,
@@ -19,7 +20,7 @@ SAMPLE = """<?xml version="1.0" encoding="UTF-8"?>
   <entry>
     <published>2026-02-03T10:00:00Z</published>
     <arxiv:primary_category term="math.AG"/>
-    <author><name>Ada  Lovelace</name></author>
+    <author><name>Ada  Lovelace</name><arxiv:affiliation>Analytical Engine Lab</arxiv:affiliation></author>
     <author><name>Emmy Noether</name></author>
   </entry>
   <entry>
@@ -38,13 +39,21 @@ SAMPLE = """<?xml version="1.0" encoding="UTF-8"?>
 
 class HarvestTests(unittest.TestCase):
     def test_default_snapshot_ends_on_august_31(self) -> None:
-        self.assertEqual(build_parser().parse_args([]).end, date(2026, 8, 31))
+        args = build_parser().parse_args([])
+        self.assertEqual(args.start, date(2010, 1, 1))
+        self.assertEqual(args.end, date(2026, 8, 31))
 
     def test_parse_atom_keeps_primary_math_papers(self) -> None:
         total, papers = parse_atom(SAMPLE)
         self.assertEqual(total, 3)
         self.assertEqual(len(papers), 2)
-        self.assertEqual(papers[0].authors, ("Ada Lovelace", "Emmy Noether"))
+        self.assertEqual(
+            papers[0].authors,
+            (
+                AuthorIdentity("Ada Lovelace", "Analytical Engine Lab"),
+                AuthorIdentity("Emmy Noether"),
+            ),
+        )
         self.assertEqual(papers[1].primary_category, "math.IT")
 
     def test_query_contains_date_bounds(self) -> None:
@@ -67,14 +76,26 @@ class HarvestTests(unittest.TestCase):
 
     def test_snapshot_counts_authors_once_per_paper(self) -> None:
         papers = [
-            Paper(date(2026, 1, 1), "math.AG", ("Ada", "Ada", "Emmy")),
-            Paper(date(2026, 1, 2), "math.AG", ("Ada",)),
+            Paper(
+                date(2026, 1, 1),
+                "math.AG",
+                (AuthorIdentity("Ada", "Institute A"), AuthorIdentity("Ada", "Institute A"), AuthorIdentity("Emmy")),
+            ),
+            Paper(date(2026, 1, 2), "math.AG", (AuthorIdentity("Ada", "Institute B"),)),
         ]
         snapshot = build_snapshot(papers, date(2026, 1, 1), date(2026, 1, 2))
-        ada_id = snapshot["authors"].index("Ada")
         self.assertEqual(snapshot["paper_count"], 2)
+        self.assertEqual(
+            snapshot["authors"],
+            [
+                {"name": "Ada", "affiliation": "Institute A"},
+                {"name": "Ada", "affiliation": "Institute B"},
+                {"name": "Emmy", "affiliation": ""},
+            ],
+        )
+        self.assertEqual(snapshot["categories"], ["math.AG"])
         self.assertEqual(snapshot["paper_days"], {"2026-01-01": 1, "2026-01-02": 1})
-        self.assertEqual(snapshot["days"]["2026-01-01"], [[ada_id, 1], [1, 1]])
+        self.assertEqual(snapshot["days"]["2026-01-01"], [[0, 0, 1], [2, 0, 1]])
 
 
 if __name__ == "__main__":
