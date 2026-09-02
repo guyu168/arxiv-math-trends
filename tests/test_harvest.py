@@ -7,6 +7,7 @@ from arxiv_math_trends.harvest import (
     build_parser,
     build_snapshot,
     month_ranges,
+    normalize_author_key,
     parse_atom,
     query_url,
 )
@@ -67,6 +68,9 @@ class HarvestTests(unittest.TestCase):
         self.assertIn("math-ph", url)
         self.assertIn("202601010000", url)
         self.assertIn("202601312359", url)
+
+    def test_author_name_key_normalizes_case_and_spacing(self) -> None:
+        self.assertEqual(normalize_author_key("  Quanyu\u3000Tang "), "quanyu tang")
 
     def test_month_ranges_cover_interval(self) -> None:
         self.assertEqual(
