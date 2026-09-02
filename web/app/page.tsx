@@ -5,7 +5,6 @@ import {
   BarChart3,
   CalendarRange,
   Database,
-  Fingerprint,
   Sigma,
   Users,
 } from 'lucide-react';
@@ -49,8 +48,9 @@ type YearSnapshot = {
   paper_days: Record<string, number>;
   days: Record<string, [number, number, number][]>;
 };
-type Ranking = AuthorIdentity & { count: number; categories: string[] };
-type RankingAccumulator = AuthorIdentity & {
+type Ranking = { name: string; count: number; categories: string[] };
+type RankingAccumulator = {
+  name: string;
   count: number;
   categoryCounts: Map<string, number>;
 };
@@ -74,10 +74,8 @@ function daySpan(start: string, end: string) {
   );
 }
 
-function identityKey(author: AuthorIdentity) {
-  if (author.orcid) return `orcid:${author.orcid}`;
-  if (author.openalex_id) return `openalex:${author.openalex_id}`;
-  return `name:${author.name.toLocaleLowerCase()}`;
+function identityKey(author: Pick<AuthorIdentity, 'name'>) {
+  return `name:${author.name.normalize('NFKC').trim().replace(/\s+/g, ' ').toLocaleLowerCase()}`;
 }
 
 function formatCategory(category: string) {
@@ -124,7 +122,7 @@ function calculate(
           );
         } else {
           counts.set(key, {
-            ...author,
+            name: author.name,
             count,
             categoryCounts: new Map([[category, count]]),
           });
@@ -145,10 +143,7 @@ function calculate(
     }))
     .sort(
       (left, right) =>
-        right.count - left.count ||
-        left.name.localeCompare(right.name) ||
-        left.orcid.localeCompare(right.orcid) ||
-        left.openalex_id.localeCompare(right.openalex_id),
+        right.count - left.count || left.name.localeCompare(right.name),
     );
   return {
     ranking: ranking.slice(0, 50),
@@ -251,7 +246,7 @@ export default function Home() {
             </div>
           </div>
           <Badge variant="outline" className="hidden sm:inline-flex">
-            ORCID-linked identities
+            Grouped by author name
           </Badge>
         </div>
       </header>
@@ -266,9 +261,9 @@ export default function Home() {
               Who is publishing most in mathematics?
             </h1>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              Choose a period longer than 15 days. ORCID separates authors who
-              share a name; OpenAlex author IDs cover records without a public
-              ORCID. Each row also shows that author&apos;s top three fields.
+              Choose a period longer than 15 days. Contributions with the same
+              normalized arXiv display name are combined. Each row also shows
+              that name&apos;s top three mathematics fields.
             </p>
           </div>
 
@@ -337,11 +332,11 @@ export default function Home() {
                 </Button>
               </form>
               <div className="mt-4 flex gap-2 text-xs leading-5 text-muted-foreground">
-                <Fingerprint className="mt-0.5 size-4 shrink-0 text-primary" />
+                <Users className="mt-0.5 size-4 shrink-0 text-primary" />
                 <p>
-                  ORCID is used when publicly linked. OpenAlex author IDs are the
-                  fallback; records with neither identifier remain name-only and
-                  may still contain different people.
+                  This is a name-based ranking: identical display names are
+                  merged even when external identity records differ. Different
+                  people who publish under the same name may therefore be combined.
                 </p>
               </div>
             </CardContent>
@@ -364,7 +359,7 @@ export default function Home() {
                   {metadata.author_identity_count.toLocaleString()}
                 </span>
                 <span className="text-muted-foreground">
-                  resolved author identities
+                  normalized author names
                 </span>
               </div>
             </div>
@@ -376,7 +371,7 @@ export default function Home() {
             <CardTitle className="text-xl">Top mathematics authors</CardTitle>
             <CardDescription>
               {result
-                ? `${start} → ${end} · ${result.days} days · ${result.papers.toLocaleString()} papers · ${result.activeAuthors.toLocaleString()} active identities`
+                ? `${start} → ${end} · ${result.days} days · ${result.papers.toLocaleString()} papers · ${result.activeAuthors.toLocaleString()} active author names`
                 : 'Preparing the ranking…'}
             </CardDescription>
           </CardHeader>
@@ -392,7 +387,7 @@ export default function Home() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-16">Rank</TableHead>
-                    <TableHead>Author · top fields · identity</TableHead>
+                    <TableHead>Author · top fields</TableHead>
                     <TableHead className="hidden w-40 sm:table-cell">
                       Relative activity
                     </TableHead>
@@ -415,29 +410,6 @@ export default function Home() {
                             · {author.categories.join(' / ')}
                           </span>
                         </span>
-                        {author.orcid ? (
-                          <a
-                            className="inline-flex items-center gap-1 text-xs text-muted-foreground underline decoration-border underline-offset-2 hover:text-primary"
-                            href={`https://orcid.org/${author.orcid}`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            ORCID {author.orcid}
-                          </a>
-                        ) : author.openalex_id ? (
-                          <a
-                            className="inline-flex items-center gap-1 text-xs text-muted-foreground underline decoration-border underline-offset-2 hover:text-primary"
-                            href={`https://openalex.org/${author.openalex_id}`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            OpenAlex-resolved
-                          </a>
-                        ) : (
-                          <span className="block text-xs text-muted-foreground">
-                            Name-only fallback
-                          </span>
-                        )}
                       </TableCell>
                       <TableCell className="hidden sm:table-cell">
                         <span className="block h-1.5 overflow-hidden rounded-full bg-muted">
@@ -462,7 +434,7 @@ export default function Home() {
       </div>
 
       <footer className="border-t px-5 py-5 text-center text-xs text-muted-foreground">
-        arXiv paper metadata · ORCID/OpenAlex author matching · primary
+        arXiv paper metadata · normalized author names · primary
         mathematics categories · snapshot generated {generated || '—'}
       </footer>
     </main>
