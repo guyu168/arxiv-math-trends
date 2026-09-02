@@ -4,7 +4,7 @@ import json
 from datetime import date
 from pathlib import Path
 
-from arxiv_math_trends.harvest import write_metadata
+from arxiv_math_trends.harvest import normalize_author_key, write_metadata
 
 
 DATA_DIR = Path("web/public/data/authors")
@@ -14,11 +14,7 @@ END = date(2026, 8, 31)
 
 
 def identity_key(author: dict[str, str]) -> str:
-    if author.get("orcid"):
-        return f"orcid:{author['orcid']}"
-    if author.get("openalex_id"):
-        return f"openalex:{author['openalex_id']}"
-    return f"name:{author['name'].casefold()}"
+    return f"name:{normalize_author_key(author['name'])}"
 
 
 def main() -> None:
@@ -30,7 +26,7 @@ def main() -> None:
         total_papers += snapshot["paper_count"]
         identities.update(identity_key(author) for author in snapshot["authors"])
     write_metadata(OUTPUT, START, END, total_papers, len(identities), years)
-    print(f"metadata: {total_papers:,} papers, {len(identities):,} identities")
+    print(f"metadata: {total_papers:,} papers, {len(identities):,} author names")
 
 
 if __name__ == "__main__":

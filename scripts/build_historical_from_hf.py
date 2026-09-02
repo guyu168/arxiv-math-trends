@@ -14,6 +14,7 @@ from arxiv_math_trends.harvest import (
     Paper,
     build_snapshot,
     normalize_author,
+    normalize_author_key,
     write_metadata,
     write_snapshot,
 )
@@ -70,31 +71,24 @@ def main() -> None:
         write_snapshot(snapshot, OUTPUT_DIR / f"{year}.json")
         print(f"{year}: {len(papers):,} papers, {len(snapshot['authors']):,} identities")
 
-    all_identities: set[tuple[str, str, str]] = set()
+    all_names: set[str] = set()
     total_papers = 0
     years = list(range(START.year, SNAPSHOT_END.year + 1))
     for year in years:
         with (OUTPUT_DIR / f"{year}.json").open(encoding="utf-8") as handle:
             snapshot = json.load(handle)
         total_papers += snapshot["paper_count"]
-        all_identities.update(
-            (
-                author["name"],
-                author.get("orcid", ""),
-                author.get("openalex_id", ""),
-            )
-            for author in snapshot["authors"]
-        )
+        all_names.update(normalize_author_key(author["name"]) for author in snapshot["authors"])
 
     write_metadata(
         METADATA_PATH,
         START,
         SNAPSHOT_END,
         total_papers,
-        len(all_identities),
+        len(all_names),
         years,
     )
-    print(f"snapshot: {total_papers:,} papers, {len(all_identities):,} identities")
+    print(f"snapshot: {total_papers:,} papers, {len(all_names):,} author names")
 
 
 if __name__ == "__main__":
