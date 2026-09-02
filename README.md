@@ -5,7 +5,7 @@
 An auditable arXiv mathematics study with an interactive author explorer. Pick
 any start and end date inside the frozen 2010-01-01 to 2026-08-31 snapshot—the
 interval must be longer than 15 days—and the browser ranks the 50 most active
-author identities by paper count.
+normalized author names by paper count.
 
 The repository also compares equal first-half windows (January 1 through June
 30) across all 32 arXiv mathematics primary categories.
@@ -18,20 +18,18 @@ The frontend lives in [`web/`](web). Its calculation runs in the browser from
 year-partitioned daily snapshots, so the browser downloads only the years needed
 for a selected window. Every paper adds one count to each listed author.
 
-The explorer resolves each paper's authorship through OpenAlex using the paper's
-permanent arXiv DOI. A public ORCID is the preferred identity; OpenAlex's
-disambiguated author ID is the fallback, followed by a normalized arXiv name
-only when neither external identifier is available. The table links public
-ORCID records and labels unresolved name-only rows rather than guessing. Each
-ranked row also shows the three primary mathematics categories in which that
-identity published the most papers during the selected period (`PDE` denotes
-`math.AP`). Legacy primary labels `cs.IT` and `math-ph` are normalized to
-`math.IT` and `math.MP`.
+The explorer groups contributions by normalized arXiv display name. External
+ORCID and OpenAlex records remain in the generated snapshots for audit, but they
+do not split the ranking. This keeps fragmented external profiles from breaking
+one display name into many rows; conversely, different people publishing under
+the same display name can be combined. Each ranked row also shows the three
+primary mathematics categories in which that name published the most papers
+during the selected period (`PDE` denotes `math.AP`). Legacy primary labels
+`cs.IT` and `math-ph` are normalized to `math.IT` and `math.MP`.
 
 The 2010–2023 paper backfill comes from the public arXiv metadata snapshot
-mirrored on Hugging Face. Author identity enrichment for every year is derived
-from the CC0 OpenAlex authorship graph; ORCID coverage depends on authors making
-an ORCID public and on the external match being available.
+mirrored on Hugging Face. The 2024–2026 paper snapshots use the official arXiv
+API. OpenAlex/ORCID matches are retained only as auditable auxiliary metadata.
 
 ## Aggregate H1 comparison
 
