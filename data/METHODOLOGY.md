@@ -24,18 +24,16 @@ comparison. They avoid comparing periods of different lengths and make the
 
 The browser loads year-partitioned frozen daily snapshots covering 1 January 2010 through
 31 August 2026. For a selected interval, each paper contributes one count to
-every author identity listed in its arXiv metadata. Repeated identical identities
-within one paper are collapsed before counting.
+every author name listed in its arXiv metadata. Repeated identical normalized
+names within one paper are collapsed before counting.
 
-arXiv's Atom feed does not expose ORCID for each paper authorship. The pipeline
-therefore resolves every arXiv DOI against OpenAlex authorships. When OpenAlex
-links a public ORCID, that ORCID is the preferred identity. Otherwise the stable
-OpenAlex author ID is used; only unmatched contributions fall back to a
-normalized arXiv display name. Matching first requires equivalent normalized
-names and then permits initial/full-name variants while preserving authorship
-order. Ambiguous matches are not forced.
+The ranking key is the normalized arXiv display name: Unicode and whitespace are
+normalized and case differences are ignored. ORCID and OpenAlex author records
+are retained as auxiliary audit data but never split the displayed ranking.
+This avoids fragmentation when one person has multiple external profiles, while
+accepting that distinct people with the same display name may be combined.
 
-The three field labels after each name are the identity's most frequent primary
+The three field labels after each name are that name's most frequent primary
 mathematics categories inside the selected date range, ordered by paper count
 and then category code. `PDE` is the display label for `math.AP`.
 
