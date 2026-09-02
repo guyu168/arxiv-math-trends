@@ -3,9 +3,9 @@
 [![CI](https://github.com/guyu168/arxiv-math-trends/actions/workflows/ci.yml/badge.svg)](https://github.com/guyu168/arxiv-math-trends/actions/workflows/ci.yml)
 
 An auditable arXiv mathematics study with an interactive author explorer. Pick
-any start and end date inside the frozen 2024-01-01 to 2026-08-31 snapshot—the
+any start and end date inside the frozen 2010-01-01 to 2026-08-31 snapshot—the
 interval must be longer than 15 days—and the browser ranks the 50 most active
-author names by paper count.
+author identities by paper count.
 
 The repository also compares equal first-half windows (January 1 through June
 30) across all 32 arXiv mathematics primary categories.
@@ -15,16 +15,17 @@ The repository also compares equal first-half windows (January 1 through June
 ## Interactive author explorer
 
 The frontend lives in [`web/`](web). Its calculation runs in the browser from
-a compact daily snapshot, so changing the date window is immediate and does
-not send a new bulk request to arXiv. Every paper adds one count to each listed
-author. arXiv author names are not stable person identifiers, so spelling
-variants are not merged and identical displayed names may represent different
-people.
+year-partitioned daily snapshots, so the browser downloads only the years needed
+for a selected window. Every paper adds one count to each listed author.
 
-The snapshot contains **128,603 papers** and **113,956 distinct author-name
-strings**. It includes papers whose primary category is one of the mathematics
-categories; the legacy primary labels `cs.IT` and `math-ph` are normalized to
-`math.IT` and `math.MP`.
+The explorer uses the exact arXiv display name plus the author-submitted
+affiliation as its identity key. This separates many common-name collisions,
+but it is not a stable person identifier: affiliations are optional, may change,
+and arXiv's API does not expose author email addresses. Each ranked row also
+shows the three primary mathematics categories in which that identity published
+the most papers during the selected period (`PDE` denotes `math.AP`). It includes papers whose
+primary category is one of the mathematics categories; the legacy primary
+labels `cs.IT` and `math-ph` are normalized to `math.IT` and `math.MP`.
 
 ## Aggregate H1 comparison
 
