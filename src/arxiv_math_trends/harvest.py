@@ -43,6 +43,10 @@ def normalize_author(name: str) -> str:
     return " ".join(unicodedata.normalize("NFC", name).split())
 
 
+def normalize_author_key(name: str) -> str:
+    return " ".join(unicodedata.normalize("NFKC", name).split()).casefold()
+
+
 def normalize_arxiv_id(value: str) -> str:
     identifier = value.rstrip("/").rsplit("/", 1)[-1]
     return re.sub(r"v\d+$", "", identifier)
@@ -260,7 +264,7 @@ def write_metadata(
         "paper_count": paper_count,
         "author_identity_count": identity_count,
         "years": years,
-        "identity_basis": "ORCID, then OpenAlex author ID, then normalized arXiv name",
+        "identity_basis": "normalized arXiv display name",
     }
     target.write_text(
         json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
@@ -322,7 +326,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> None:
     args = build_parser().parse_args()
     total_papers = 0
-    all_identities: set[AuthorIdentity] = set()
+    all_names: set[str] = set()
     trend_papers: list[Paper] = []
     years = list(range(args.start.year, args.end.year + 1))
     for year in years:
@@ -336,7 +340,11 @@ def main() -> None:
         snapshot = build_snapshot(papers, year_start, year_end)
         write_snapshot(snapshot, args.output_dir / f"{year}.json")
         total_papers += len(papers)
-        all_identities.update(author for paper in papers for author in paper.authors)
+        all_names.update(
+            normalize_author_key(author.name)
+            for paper in papers
+            for author in paper.authors
+        )
         if year >= 2024:
             trend_papers.extend(papers)
         print(f"{year}: {len(papers):,} papers, {len(snapshot['authors']):,} identities")
@@ -345,13 +353,13 @@ def main() -> None:
         args.start,
         args.end,
         total_papers,
-        len(all_identities),
+        len(all_names),
         years,
     )
     write_half_year_counts(trend_papers, args.category_source, args.counts_output)
     print(
         f"snapshot: {total_papers:,} papers, "
-        f"{len(all_identities):,} author identities"
+        f"{len(all_names):,} normalized author names"
     )
 
 
