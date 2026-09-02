@@ -27,6 +27,11 @@ the most papers during the selected period (`PDE` denotes `math.AP`). It include
 primary category is one of the mathematics categories; the legacy primary
 labels `cs.IT` and `math-ph` are normalized to `math.IT` and `math.MP`.
 
+The 2010–2023 backfill uses the public arXiv OAI metadata snapshot mirrored on
+Hugging Face, which does not include affiliations; those historical rows are
+therefore marked “Affiliation not provided.” The 2024–2026 API snapshots retain
+the author-submitted affiliation when available.
+
 ## Aggregate H1 comparison
 
 | Metric | 2024 H1 | 2025 H1 | 2026 H1 |
