@@ -39,6 +39,12 @@ The three field labels after each name are the identity's most frequent primary
 mathematics categories inside the selected date range, ordered by paper count
 and then category code. `PDE` is the display label for `math.AP`.
 
+The 2010–2023 backfill is derived from the public arXiv OAI metadata snapshot
+mirrored on Hugging Face. That mirror exposes author names and categories but
+not affiliations, so historical identities in those years use the normalized
+display name alone and are explicitly labeled as having no provided affiliation.
+The 2024–2026 snapshots use affiliations supplied by the official arXiv API.
+
 The explorer enforces a range longer than 15 days and only accepts dates inside
 the frozen snapshot. Rebuild it with `arxiv-math-harvest` to extend the window.
 
